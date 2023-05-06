@@ -25,10 +25,13 @@ class Specialization(Base):
     __tablename__ = "specializations"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, nullable=False)
+    name = Column(String, nullable=False)
     faculty_id = Column(Integer, ForeignKey("faculties.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     professions = relationship(
         "Profession", secondary=specialization_profession, back_populates="specializations"
+    )
+    __table_args__ = (
+        UniqueConstraint("faculty_id", "name"),
     )
 
 
@@ -38,5 +41,5 @@ class Profession(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
     specializations = relationship(
-        "Specialization", secondary=specialization_profession, back_populates="parents"
+        "Specialization", secondary=specialization_profession, back_populates="professions"
     )
