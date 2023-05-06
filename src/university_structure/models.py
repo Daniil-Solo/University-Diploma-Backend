@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, PrimaryKeyConstraint
 from sqlalchemy.orm import relationship
 
 from src.base import Base
@@ -12,13 +12,15 @@ class Faculty(Base):
     specializations = relationship("Specialization")
 
 
-specialization_profession = Table(
-    "specialization_profession",
-    Base.metadata,
-    Column("specialization_id", ForeignKey("specializations.id"), nullable=False),
-    Column("professions_id", ForeignKey("professions.id"), nullable=False),
-    UniqueConstraint("specialization_id", "professions_id")
-)
+class SpecializationProfession(Base):
+    __tablename__ = "specialization_profession"
+
+    specialization_id = Column(Integer, ForeignKey("specializations.id"), nullable=False)
+    profession_id = Column(Integer, ForeignKey("professions.id"), nullable=False)
+    __table_args__ = (
+        UniqueConstraint("specialization_id", "profession_id"),
+        PrimaryKeyConstraint("specialization_id", "profession_id"),
+    )
 
 
 class Specialization(Base):
@@ -27,9 +29,6 @@ class Specialization(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     faculty_id = Column(Integer, ForeignKey("faculties.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
-    professions = relationship(
-        "Profession", secondary=specialization_profession, back_populates="specializations"
-    )
     __table_args__ = (
         UniqueConstraint("faculty_id", "name"),
     )
@@ -40,6 +39,3 @@ class Profession(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
-    specializations = relationship(
-        "Specialization", secondary=specialization_profession, back_populates="professions"
-    )
