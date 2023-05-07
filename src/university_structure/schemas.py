@@ -6,8 +6,8 @@ class InEntity(BaseModel):
 
 
 class OutEntity(BaseModel):
-    id: int
-    name: str
+    value: int
+    label: str
 
 
 class InFaculty(InEntity):

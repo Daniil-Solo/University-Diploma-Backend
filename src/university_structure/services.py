@@ -33,7 +33,7 @@ class FacultyService(EntityService):
     @classmethod
     async def get_faculties(cls, session: AsyncSession) -> list[OutFaculty]:
         rows = await super()._get_list(session, cls.__MODEL_CLASS)
-        return [cls.__OUT_SCHEMA_CLASS(id=row.id, name=row.name) for row in rows]
+        return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
     async def create_faculty(cls, session: AsyncSession, faculty: InFaculty) -> None:
@@ -50,7 +50,7 @@ class SpecializationService(EntityService):
         query = select(cls.__MODEL_CLASS).where(cls.__MODEL_CLASS.faculty_id == faculty_id)
         cursor = await session.execute(query)
         rows = [row[0] for row in cursor.all()]
-        return [cls.__OUT_SCHEMA_CLASS(id=row.id, name=row.name) for row in rows]
+        return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
     async def create_specialization(cls, session: AsyncSession, specialization: InSpecialization) -> None:
@@ -73,7 +73,7 @@ class ProfessionService(EntityService):
         )
         cursor = await session.execute(query)
         rows = [row[0] for row in cursor.all()]
-        return [cls.__OUT_SCHEMA_CLASS(id=row.id, name=row.name) for row in rows]
+        return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
     async def create_profession(cls, session: AsyncSession, profession: InProfession) -> None:
