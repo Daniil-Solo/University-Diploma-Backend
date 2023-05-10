@@ -2,7 +2,7 @@ from abc import ABC
 from src.university_structure.schemas import (
     InFaculty, OutFaculty,
     InSpecialization, OutSpecialization,
-    InProfession, OutProfession
+    InAdminProfession, OutProfession
 )
 from src.university_structure.models import Faculty, Specialization, Profession, SpecializationProfession
 from sqlalchemy import select, distinct, and_
@@ -36,8 +36,9 @@ class FacultyService(EntityService):
         return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
-    async def create_faculty(cls, session: AsyncSession, faculty: InFaculty) -> None:
-        await super()._create(session, cls.__MODEL_CLASS, faculty.dict())
+    async def create_faculty(cls, session: AsyncSession, faculty: InFaculty) -> OutFaculty:
+        faculty = await super()._create(session, cls.__MODEL_CLASS, faculty.dict())
+        return OutFaculty(value=faculty.id, label=faculty.name)
 
 
 class SpecializationService(EntityService):
@@ -53,13 +54,14 @@ class SpecializationService(EntityService):
         return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
-    async def create_specialization(cls, session: AsyncSession, specialization: InSpecialization) -> None:
-        await super()._create(session, cls.__MODEL_CLASS, specialization.dict())
+    async def create_specialization(cls, session: AsyncSession, specialization: InSpecialization) -> OutSpecialization:
+        specialization = await super()._create(session, cls.__MODEL_CLASS, specialization.dict())
+        return OutSpecialization(value=specialization.id, label=specialization.name)
 
 
 class ProfessionService(EntityService):
     __MODEL_CLASS = Profession
-    __IN_SCHEMA_CLASS = InProfession
+    __IN_SCHEMA_CLASS = InAdminProfession
     __OUT_SCHEMA_CLASS = OutProfession
 
     @classmethod
@@ -76,19 +78,17 @@ class ProfessionService(EntityService):
         return [cls.__OUT_SCHEMA_CLASS(value=row.id, label=row.name) for row in rows]
 
     @classmethod
-    async def create_profession(cls, session: AsyncSession, profession: InProfession) -> None:
-        query = select(Profession).where(Profession.name == profession.name)
-        cursor = await session.execute(query)
-        new_profession = cursor.first()[0]
-        if not new_profession:
-            new_profession = await super()._create(session, cls.__MODEL_CLASS, dict(name=profession.name))
-            await session.refresh(new_profession)
-
+    async def create_profession(cls, session: AsyncSession, profession: InAdminProfession) -> OutProfession:
+        new_profession = await super()._create(
+            session, cls.__MODEL_CLASS,
+            dict(id=profession.id, name=profession.name, vector=profession.vector)
+        )
         try:
             for specialization_id in profession.specializations:
-                new_sp = SpecializationProfession(specialization_id=specialization_id, profession_id=new_profession.id)
+                new_sp = SpecializationProfession(specialization_id=specialization_id, profession_id=profession.id)
                 session.add(new_sp)
             await session.commit()
+            return OutProfession(value=new_profession.id, label=new_profession.name)
         except Exception as ex:
             await session.rollback()
             raise ex
