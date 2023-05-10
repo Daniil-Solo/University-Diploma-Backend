@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, PrimaryKeyConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, PrimaryKeyConstraint, JSON
 from sqlalchemy.orm import relationship
 
 from src.base import Base
@@ -39,3 +39,4 @@ class Profession(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
+    vector = Column(JSON, nullable=False)
