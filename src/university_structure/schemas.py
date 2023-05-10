@@ -18,8 +18,11 @@ class OutFaculty(OutEntity):
     ...
 
 
-class InProfession(InEntity):
+class InAdminProfession(BaseModel):
+    id: int
+    name: str
     specializations: list[int]
+    vector: dict
 
 
 class OutProfession(OutEntity):
