@@ -11,4 +11,7 @@ DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASS = os.environ.get("DB_PASS")
 
+ELECTIVES_FILENAME = os.environ.get("ELECTIVES_DATA")
+PROFESSIONS_FILENAME = os.environ.get("PROFESSIONS_DATA")
+
 TARGET_METADATA = [UniversityStructureBase.metadata]
