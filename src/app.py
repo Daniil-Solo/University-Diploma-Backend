@@ -3,10 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from uvicorn import run
 
 from src.university_structure.router import router as university_structure_router
+from src.admin.router import router as admin_router
 
 app = FastAPI(title="ПГНИУ: Цифровой помощник", )
 
 app.include_router(university_structure_router)
+app.include_router(admin_router)
 
 origins = [
     "http://localhost:3000",
