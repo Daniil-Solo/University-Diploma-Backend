@@ -37,9 +37,9 @@ class RankingOfElectivesService:
 
     @staticmethod
     async def get_relevant_electives_by_profession(
-            session: AsyncSession, elective_groups: dict[str:list[int]], profession_id: int) -> list[ElectiveGroup]:
+            session: AsyncSession, elective_dict_groups: dict[str:list[int]], profession_id: int) -> list[ElectiveGroup]:
 
-        elective_id_list = list(chain.from_iterable(elective_groups.values()))
+        elective_id_list = list(chain.from_iterable(elective_dict_groups.values()))
         elective_query = select(Elective).where(Elective.id.in_(elective_id_list))
         elective_records = await session.execute(elective_query)
         elective_records = [el[0] for el in elective_records.all()]
@@ -63,7 +63,7 @@ class RankingOfElectivesService:
             elective_name_set_add = elective_name_set.add
             filtered_electives = [
                 el for el in electives
-                if el[0].type == elective_type and not (el in elective_name_set or elective_name_set_add(el))
+                if el[0].id in elective_dict_groups[group_name] and not (el in elective_name_set or elective_name_set_add(el))
             ]
             for (elective_record, _) in sorted(filtered_electives, key=lambda x: x[1], reverse=True)[:ELECTIVE_COUNT]:
                 items.append(OutElective(id=elective_record.id, title=elective_record.name))
