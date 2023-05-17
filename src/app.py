@@ -5,7 +5,7 @@ from uvicorn import run
 from university_structure.router import router as university_structure_router
 from admin.router import router as admin_router
 from ranking_of_electives.router import router as ranking_router
-from .config import FRONTEND_HOST
+from config import FRONTEND_HOST
 
 app = FastAPI(title="ПГНИУ: Цифровой помощник", )
 
