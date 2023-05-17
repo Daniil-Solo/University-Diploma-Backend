@@ -5,15 +5,16 @@ from uvicorn import run
 from src.university_structure.router import router as university_structure_router
 from src.admin.router import router as admin_router
 from src.ranking_of_electives.router import router as ranking_router
+from config import FRONTEND_HOST
 
 app = FastAPI(title="ПГНИУ: Цифровой помощник", )
 
 app.include_router(university_structure_router)
-app.include_router(admin_router)
 app.include_router(ranking_router)
+app.include_router(admin_router)
 
 origins = [
-    "http://localhost:3000",
+    FRONTEND_HOST,
 ]
 
 app.add_middleware(
