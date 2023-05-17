@@ -2,8 +2,8 @@ from fastapi import Depends
 from fastapi.routing import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database import get_async_session
-from src.admin.services import DataBaseInitService
+from database import get_async_session
+from .services import DataBaseInitService
 
 
 router = APIRouter(prefix="/admin")

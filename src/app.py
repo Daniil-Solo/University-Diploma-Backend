@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from uvicorn import run
 
-from src.university_structure.router import router as university_structure_router
-from src.admin.router import router as admin_router
-from src.ranking_of_electives.router import router as ranking_router
+from university_structure.router import router as university_structure_router
+from admin.router import router as admin_router
+from ranking_of_electives.router import router as ranking_router
 from config import FRONTEND_HOST
 
 app = FastAPI(title="ПГНИУ: Цифровой помощник", )

@@ -2,8 +2,8 @@ from fastapi import Depends, Query
 from fastapi.routing import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database import get_async_session
-from src.ranking_of_electives.services import RankingOfElectivesService
+from database import get_async_session
+from .services import RankingOfElectivesService
 
 
 router = APIRouter(prefix="/ranking")

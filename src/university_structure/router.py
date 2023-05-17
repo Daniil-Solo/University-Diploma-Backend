@@ -2,11 +2,11 @@ from fastapi import Depends, Query
 from fastapi.routing import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.university_structure.services import FacultyService, SpecializationService, ProfessionService
-from src.university_structure.schemas import (
+from .services import FacultyService, SpecializationService, ProfessionService
+from .schemas import (
     OutFaculty, OutSpecialization, OutProfession
 )
-from src.database import get_async_session
+from database import get_async_session
 
 router = APIRouter(prefix="/structure")
 

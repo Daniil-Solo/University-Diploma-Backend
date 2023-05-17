@@ -2,12 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from itertools import chain
 
-from src.university_structure.models import Profession
-from src.university_structure.services import EntityService
-from src.ranking_of_electives.models import Elective
-from src.ranking_of_electives.schemas import InAdminElective, ElectiveGroup, OutElective
-from src.ranking_of_electives.utils import from_dict_to_sparse_array, calculate_similarity
-from src.ranking_of_electives.constants import (
+from university_structure.models import Profession
+from university_structure.services import EntityService
+from .models import Elective
+from .schemas import InAdminElective, ElectiveGroup, OutElective
+from .utils import from_dict_to_sparse_array, calculate_similarity
+from .constants import (
     ELECTIVE_GROUP_NAME_FOR_TYPE, ELECTIVES_FOR_SPECIALIZATION, ELECTIVE_COUNT
 )
 

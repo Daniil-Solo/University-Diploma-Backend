@@ -1,10 +1,10 @@
 from abc import ABC
-from src.university_structure.schemas import (
+from .schemas import (
     InFaculty, OutFaculty,
     InSpecialization, OutSpecialization,
     InAdminProfession, OutProfession
 )
-from src.university_structure.models import Faculty, Specialization, Profession, SpecializationProfession
+from .models import Faculty, Specialization, Profession, SpecializationProfession
 from sqlalchemy import select, distinct, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 

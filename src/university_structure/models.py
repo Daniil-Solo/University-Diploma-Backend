@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, PrimaryKeyConstraint, JSON
 from sqlalchemy.orm import relationship
 
-from src.base import Base
+from base import Base
 
 
 class Faculty(Base):

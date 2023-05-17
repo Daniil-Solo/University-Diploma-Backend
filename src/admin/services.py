@@ -1,15 +1,15 @@
 import json
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.config import PROFESSIONS_FILENAME, ELECTIVES_FILENAME
+from config import PROFESSIONS_FILENAME, ELECTIVES_FILENAME
 
-from src.university_structure.services import (
+from university_structure.services import (
     FacultyService, SpecializationService, ProfessionService
 )
-from src.ranking_of_electives.services import ElectiveService
-from src.university_structure.schemas import (
+from ranking_of_electives.services import ElectiveService
+from university_structure.schemas import (
     InFaculty, InSpecialization, InAdminProfession
 )
-from src.ranking_of_electives.schemas import InAdminElective
+from ranking_of_electives.schemas import InAdminElective
 
 
 class DataBaseInitService:
