@@ -10,8 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN alembic revision --autogenerate
-
 RUN alembic upgrade head
 
 WORKDIR src
