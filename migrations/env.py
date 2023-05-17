@@ -3,8 +3,6 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
-from src.config import TARGET_METADATA
 
 from alembic import context
 
@@ -12,6 +10,11 @@ import os
 import sys
 
 sys.path.append(os.path.join(sys.path[0], 'src'))
+
+from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+from src.database import metadata, Base
+from src.university_structure.models import *
+from src.ranking_of_electives.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -33,7 +36,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = TARGET_METADATA
+target_metadata = [metadata, Base.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

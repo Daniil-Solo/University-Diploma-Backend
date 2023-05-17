@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, JSON
 
-from base import Base
+from database import Base
 
 
 class Elective(Base):
